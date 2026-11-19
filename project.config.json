@@ -26,7 +26,12 @@
   "compileType": "miniprogram",
   "simulatorPluginLibVersion": {},
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "android"
+      }
+    ],
     "include": []
   },
   "appid": "wx5625b4b42d2331b1",

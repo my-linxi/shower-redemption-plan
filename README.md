@@ -8,6 +8,27 @@
 > [!NOTE]
 > 本项目仅用于个人学习 BLE 通信协议与硬件交互原理，请在使用前阅读文末的[免责声明](#免责声明)。
 
+## Android 安装包
+
+独立 Android 应用位于 [`android/`](android/)，支持 Android 7.0（API 24）及以上的 BLE 真机，无需微信即可扫码、搜索和重连控水器。扫码在手机本地解析。Android 12 及以上需要「附近设备」权限，Android 7 至 11 搜索蓝牙设备时需要位置权限和已开启的系统定位。扫码时会请求相机权限。
+
+### 下载 APK
+
+在 [GitHub Actions](https://github.com/my-linxi/shower-redemption-plan/actions/workflows/android-apk.yml) 中打开成功的 **Build Android APK** 运行，在 **Artifacts** 下载 `shower-redemption-plan-apk`。解压后在手机上安装 `shower-redemption-plan.apk`。工作流在推送 `main` 或创建、更新 Pull Request 时运行，也可以选择 **Run workflow** 手动构建。
+
+该 APK 使用 Gradle 的调试签名，可以直接安装。CI 与本地的调试密钥可能不同，不同 CI 运行的密钥也可能不同。Android 要求覆盖安装的 APK 具有相同签名，长期分发应使用固定的发布签名。
+
+### 本地构建
+
+准备 JDK 17、Android SDK Platform 35 和 Build Tools 35.0.0，设置 `ANDROID_HOME`，或在 Android Studio 中打开 `android/`。
+
+```sh
+cd android
+./gradlew :app:assembleDebug :app:lintDebug
+```
+
+安装包生成在 `android/app/build/outputs/apk/debug/app-debug.apk`。Windows 下使用 `gradlew.bat`。真机验证可先用搜索或扫码连接设备，再检查开阀、关阀和用水量回执。关阀回执超时时，Android 版会保留连接并允许重试。若开阀后连接中断，可以重连待关阀设备，再手动发送关阀指令。
+
 ## 内测体验
 
 不想在本地安装微信开发者工具？**如需体验免部署的线上内测版本，欢迎联系管理员邮箱**：
@@ -89,7 +110,7 @@ shower-redemption-plan/
 
 > **权限说明**：`app.json` 中申请了 `scope.userLocation`，原因是**安卓系统下扫描蓝牙设备必须授予位置权限**，并非用于获取地理位置。
 
-## 平台支持
+## 微信小程序平台支持
 
 > [!WARNING]
 > **本项目只面向 Android 真机调试验证。** iOS 与鸿蒙（HarmonyOS）未做适配，运行可能出现问题，且后续也不计划为这两个平台做适配；Windows 端受微信开发环境限制，无法调用蓝牙能力。
